@@ -81,11 +81,11 @@ func run() error {
 
 	port, err := env.Get("PORT").Int()
 	if err != nil {
-		return err
+		port = 80
 	}
 	app := &app.Server{
 		Config: app.Config{
-			Letsencrypt: true,
+			Letsencrypt: false,
 			DirCache:    dirCache.String(),
 			HostNames:   hostnames.StringSlice(","),
 			Port:        port,
