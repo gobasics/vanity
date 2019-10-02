@@ -1,14 +1,11 @@
 package main
 
 import (
-	"context"
-	"errors"
+	"fmt"
 	"html/template"
-	"net"
 	"net/http"
 	"os"
 
-	"gobasics.dev/app"
 	"gobasics.dev/env"
 	"gobasics.dev/log"
 )
@@ -21,8 +18,7 @@ const (
 		<meta name="go-import" content="{{.Src}} {{.Dst}}"/>
 	</head>
 	<body></body>
-</html>
-	`
+</html>`
 )
 
 type handler struct {
@@ -49,31 +45,7 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-type provider struct {
-	*http.Server
-}
-
-func (p provider) Serve(l net.Listener) error {
-	return p.Serve(l)
-}
-
-func (p provider) GracefulStop() {
-	if err := p.Shutdown(context.Background()); err != nil {
-		log.Error(err.Error())
-	}
-}
-
 func run() error {
-	dirCache, ok := env.Lookup("DIR_CACHE")
-	if !ok {
-		return errors.New("DIR_CACHE is not set in the environment")
-	}
-
-	hostnames, ok := env.Lookup("HOSTNAMES")
-	if !ok {
-		return errors.New("HOSTNAMES is not set in the environment")
-	}
-
 	t, err := template.New("webpage").Parse(TPL)
 	if err != nil {
 		return err
@@ -83,19 +55,8 @@ func run() error {
 	if err != nil {
 		port = 80
 	}
-	app := &app.Server{
-		Config: app.Config{
-			Letsencrypt: false,
-			DirCache:    dirCache.String(),
-			HostNames:   hostnames.StringSlice(","),
-			Port:        port,
-		},
-		Provider: provider{&http.Server{
-			Handler: handler{t},
-		}},
-	}
 
-	return app.ListenAndServe()
+	return http.ListenAndServe(fmt.Sprintf(":%d", port), handler{t})
 }
 
 func main() {
