@@ -64,12 +64,12 @@ func (p provider) GracefulStop() {
 }
 
 func run() error {
-	dirCache, ok := env.Get("DIR_CACHE")
+	dirCache, ok := env.Lookup("DIR_CACHE")
 	if !ok {
 		return errors.New("DIR_CACHE is not set in the environment")
 	}
 
-	hostnames, ok := env.Get("HOSTNAMES")
+	hostnames, ok := env.Lookup("HOSTNAMES")
 	if !ok {
 		return errors.New("HOSTNAMES is not set in the environment")
 	}
@@ -79,12 +79,16 @@ func run() error {
 		return err
 	}
 
+	port, err := env.Get("PORT").Int()
+	if err != nil {
+		return err
+	}
 	app := &app.Server{
 		Config: app.Config{
 			Letsencrypt: true,
 			DirCache:    dirCache.String(),
 			HostNames:   hostnames.StringSlice(","),
-			Port:        443,
+			Port:        port,
 		},
 		Provider: provider{&http.Server{
 			Handler: handler{t},

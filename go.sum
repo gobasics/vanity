@@ -1,7 +1,7 @@
 gobasics.dev/app v0.0.0-20190929222939-378363a2b946 h1:YfixugHdFuZ22fJedNpyNobeWYDpFjKwGLU4HJCapr0=
 gobasics.dev/app v0.0.0-20190929222939-378363a2b946/go.mod h1:A170K4U/WTF/o4Dwz4cUZ14mtNDGgxAKk7kFbO6TjUk=
-gobasics.dev/env v0.0.0-20190921195506-724ef4b8e12a h1:PAdJi5Ve66duFch528QwBVkmvOdIcqguiC/EQHkDZos=
-gobasics.dev/env v0.0.0-20190921195506-724ef4b8e12a/go.mod h1:G0jxdABUiWQR44K6Aw3SCTjlSsF0XSfDTKZxdsr0W6Y=
+gobasics.dev/env v0.0.0-20191002051318-dcf3949974ec h1:5ifFhKHw1Z7KkEm9TAhTatNa8392l6Hxl+cCPvVGUlc=
+gobasics.dev/env v0.0.0-20191002051318-dcf3949974ec/go.mod h1:G0jxdABUiWQR44K6Aw3SCTjlSsF0XSfDTKZxdsr0W6Y=
 gobasics.dev/log v0.0.0-20190929222556-f8d1d811a177 h1:uvZFdNTiFyHHO7kDtmlUSuaPuJK+evD7/TMxkN5JC6g=
 gobasics.dev/log v0.0.0-20190929222556-f8d1d811a177/go.mod h1:ya2sQ1dN3+UOQ7SEz02ayaXtNcduafco80LwScARGxU=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
