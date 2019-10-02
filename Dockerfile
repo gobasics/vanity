@@ -3,7 +3,7 @@ WORKDIR /
 RUN mkdir /etc/ssl/cache
 ENV GO111MODULE on
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build . -o vanity
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o vanity .
 
 FROM scratch
 WORKDIR /
