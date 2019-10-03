@@ -15,7 +15,7 @@ const (
 <html>
 	<head>
 		<title>{{.Src}}</title>
-		<meta name="go-import" content="{{.Src}} {{.Dst}}"/>
+		<meta name="go-import" content="{{.Src}} git https://github.com{{.Dst}}"/>
 	</head>
 	<body></body>
 </html>`
@@ -33,11 +33,15 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Src, Dst string
 	}
 
-	var data = R{
-		Src: os.Getenv("SRC"),
-		Dst: os.Getenv("DST"),
+	var module = r.URL.Path
+	if len(module) > 0 && string(module[0]) != "/" {
+		module = "/" + module
 	}
-
+	var data = R{
+		Src: fmt.Sprintf("%s/%s", os.Getenv("DOMAIN"), module),
+		Dst: module,
+	}
+	fmt.Println(data)
 	if err := h.template.Execute(os.Stdout, data); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	} else {
@@ -55,7 +59,7 @@ func run() error {
 	if err != nil {
 		port = 80
 	}
-
+	fmt.Println(fmt.Sprintf("listening on %d", port))
 	return http.ListenAndServe(fmt.Sprintf(":%d", port), handler{t})
 }
 
