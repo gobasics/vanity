@@ -45,7 +45,7 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Time: time.Now(),
 	}
 	fmt.Println(data)
-	if err := h.template.Execute(os.Stdout, data); err != nil {
+	if err := h.template.Execute(w, data); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	} else {
 		w.WriteHeader(http.StatusOK)
