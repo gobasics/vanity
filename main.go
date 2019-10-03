@@ -15,7 +15,7 @@ const (
 <html>
 	<head>
 		<title>{{.Src}}</title>
-		<meta name="go-import" content="{{.Src}} git https://github.com{{.Dst}}"/>
+		<meta name="go-import" content="{{.Src}} git https://github.com/{{.Dst}}"/>
 	</head>
 	<body></body>
 </html>`
@@ -33,13 +33,13 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Src, Dst string
 	}
 
-	var module = r.URL.Path
-	if len(module) > 0 && string(module[0]) != "/" {
-		module = "/" + module
+	var path = r.URL.Path
+	if len(path) > 0 && string(path[0]) == "/" {
+		path = string(path[1:])
 	}
 	var data = R{
-		Src: fmt.Sprintf("%s/%s", os.Getenv("DOMAIN"), module),
-		Dst: module,
+		Src: fmt.Sprintf("%s/%s", os.Getenv("DOMAIN"), path),
+		Dst: path,
 	}
 	fmt.Println(data)
 	if err := h.template.Execute(os.Stdout, data); err != nil {
