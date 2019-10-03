@@ -44,11 +44,8 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Dst:  path,
 		Time: time.Now(),
 	}
-	fmt.Println(data)
 	if err := h.template.Execute(w, data); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-	} else {
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
