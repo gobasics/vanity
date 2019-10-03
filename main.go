@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"os"
+	"time"
 
 	"gobasics.dev/env"
 	"gobasics.dev/log"
@@ -17,7 +18,7 @@ const (
 		<title>{{.Src}}</title>
 		<meta name="go-import" content="{{.Src}} git https://github.com/{{.Dst}}"/>
 	</head>
-	<body></body>
+	<body>{{.Time}}</body>
 </html>`
 )
 
@@ -31,6 +32,7 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	type R struct {
 		Src, Dst string
+		Time     time.Time
 	}
 
 	var path = r.URL.Path
@@ -38,8 +40,9 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		path = string(path[1:])
 	}
 	var data = R{
-		Src: fmt.Sprintf("%s/%s", os.Getenv("DOMAIN"), path),
-		Dst: path,
+		Src:  fmt.Sprintf("%s/%s", os.Getenv("DOMAIN"), path),
+		Dst:  path,
+		Time: time.Now(),
 	}
 	fmt.Println(data)
 	if err := h.template.Execute(os.Stdout, data); err != nil {
