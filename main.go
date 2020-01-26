@@ -16,7 +16,7 @@ const (
 <html>
 	<head>
 		<title>{{.Src}}</title>
-		<meta name="go-import" content="{{.Src}} {{.Dst}}"/>
+		<meta name="go-import" content="{{.Src}} git https://github.com/{{.Dst}}"/>
 	</head>
 	<body>{{.Time}}</body>
 </html>`
@@ -30,7 +30,7 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "text/html")
 	w.Header().Add("Content-Type", "charset=utf-8")
 
-	type R struct {
+	type Redirect struct {
 		Src, Dst string
 		Time     time.Time
 	}
@@ -39,11 +39,13 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if len(path) > 0 && string(path[0]) == "/" {
 		path = string(path[1:])
 	}
-	var data = R{
-		Src:  fmt.Sprintf("%s/%s", os.Getenv("SRC"), path),
-		Dst:  fmt.Sprintf("%s/%s", os.Getenv("DST"), path),
+
+	var data = Redirect{
+		Src:  r.URL.String(),
+		Dst:  fmt.Sprintf("%s/%s", os.Getenv("GITHUB_HANDLE"), path),
 		Time: time.Now(),
 	}
+
 	if err := h.template.Execute(w, data); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
