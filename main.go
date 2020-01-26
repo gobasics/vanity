@@ -39,9 +39,9 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if len(path) > 0 && string(path[0]) == "/" {
 		path = string(path[1:])
 	}
-	fmt.Println(r.URL.String(), r.Host)
+
 	var data = Redirect{
-		Src:  r.URL.String(),
+		Src:  fmt.Sprintf("https://%s/%s", r.Host, path),
 		Dst:  fmt.Sprintf("%s/%s", os.Getenv("GITHUB_HANDLE"), path),
 		Time: time.Now(),
 	}
@@ -59,9 +59,9 @@ func run() error {
 
 	port, err := env.Get("PORT").Int()
 	if err != nil {
-		port = 80
+		port = 8080
 	}
-	fmt.Println(fmt.Sprintf("listening on %d", port))
+
 	return http.ListenAndServe(fmt.Sprintf(":%d", port), handler{t})
 }
 
