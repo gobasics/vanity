@@ -39,7 +39,7 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if len(path) > 0 && string(path[0]) == "/" {
 		path = string(path[1:])
 	}
-
+	fmt.Println(r.URL.String(), r.Host)
 	var data = Redirect{
 		Src:  r.URL.String(),
 		Dst:  fmt.Sprintf("%s/%s", os.Getenv("GITHUB_HANDLE"), path),
