@@ -41,8 +41,8 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var data = Redirect{
-		Src:  fmt.Sprintf("https://%s/%s", r.Host, path),
-		Dst:  fmt.Sprintf("%s/%s", os.Getenv("GITHUB_HANDLE"), path),
+		Src:  fmt.Sprintf("%s/%s", r.Host, path),
+		Dst:  fmt.Sprintf("%s/%s.git", os.Getenv("GITHUB_HANDLE"), path),
 		Time: time.Now(),
 	}
 
