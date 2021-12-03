@@ -1,6 +1,6 @@
 module gobasics.dev/vanity
 
-go 1.13
+go 1.17
 
 require (
 	gobasics.dev/env v0.0.0-20191002054050-d35e6b128d12
