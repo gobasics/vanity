@@ -17,6 +17,7 @@ const (
 	<head>
 		<title>{{.Src}}</title>
 		<meta name="go-import" content="{{.Src}} git https://github.com/{{.Dst}}"/>
+		<meta name="description" content="go package"/>
 	</head>
 	<body>{{.Time}}</body>
 </html>`
